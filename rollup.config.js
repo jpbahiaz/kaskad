@@ -7,12 +7,12 @@ export default {
   output: {
     dir: 'dist',
 		format: 'cjs',
-		// plugins: [terser()]
   },
   plugins: [
     resolve(),
     babel({
       exclude: 'node_modules/**' // only transpile our source code
-    })
+    }),
+    terser()
   ]
 };
