@@ -1,7 +1,7 @@
 {
-  "name": "inter-ui",
+  "name": "kaskad",
   "version": "1.0.0",
-  "description": "Test custom components with vanilla js\"",
+  "description": "Agnostic framework purely functional",
   "main": "index.js",
   "dependencies": {
     "ramda": "^0.27.0",
