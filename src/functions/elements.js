@@ -1,7 +1,7 @@
 //## Element function utilities ##//
 
 import { pipe, unless, always, isNil } from "ramda"
-import { elementAddListener, mutate } from "../common/utility"
+import { elementAddListener, mutate, appendTo, consoleLog } from "../common/utility"
 import { toInlineStyle } from "./styles"
 
 export function baseElement(...fns){
@@ -15,5 +15,32 @@ export function baseElement(...fns){
 			...fns,
 		)(element)
 	}
+}
 
+function button({ type }){
+	return pipe(
+		unless(always(isNil(type)), mutate('type', type))
+	)
+}
+
+function div({}){
+	return pipe(
+		consoleLog
+	)
+}
+
+const elements = {
+	button,
+	div,
+}
+
+export function createElement(identifier, options) {
+	return function renderer(parent){
+		baseElement(
+			elements[identifier](options),
+			appendTo(parent),
+		)(options, document.createElement(identifier))
+
+		return parent
+	}
 }

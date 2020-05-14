@@ -28,7 +28,7 @@ export function appendTo(parent){
 }
 
 export function consoleLog(value){
-	console.trace(value)
+	console.log(value)
 	return value
 }
 

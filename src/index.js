@@ -1,6 +1,8 @@
-import { Div } from './components/div'
-import { Button } from './components/button/index'
-import { pipe } from 'ramda'
+import { pipe, partial } from 'ramda'
+import { createElement } from './functions/elements'
+
+const Button = partial(createElement, ['button'])
+const Div = partial(createElement, ['div'])
 
 pipe(
 	Div({
@@ -9,9 +11,9 @@ pipe(
 		children: Div({
 			innerText: 'hi',
 			className: 'container',
-			style: { color: 'red', background: 'currentcolor' },
+			style: { color: 'red' },
 			children: pipe(
-				Button({ onClick: () => console.log('teste 2'), innerText: 'Test2', type: 'submit'}),
+				createElement('button', { onClick: () => console.log('teste 2'), innerText: 'Test2', type: 'submit'}),
 				Button({ onClick: () => console.log('teste 3'), innerText: 'Test3' })
 			)
 		}),
