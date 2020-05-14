@@ -36,7 +36,6 @@ export function consoleLog(value){
 export function mutate(prop, value){
 	return function mutator(entity) {
 		entity[prop] = value
-
 		return entity
 	}
 }

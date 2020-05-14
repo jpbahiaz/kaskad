@@ -8,6 +8,7 @@ pipe(
 		innerText: 'Test1',
 		children: Div({
 			innerText: 'hi',
+			className: 'container',
 			style: { color: 'red', background: 'currentcolor' },
 			children: pipe(
 				Button({ onClick: () => console.log('teste 2'), innerText: 'Test2'}),
@@ -17,10 +18,10 @@ pipe(
 	}),
 )(document.querySelector('.root'))
 
-export {
-	Button,
-	Div
-}
+// export {
+// 	Button,
+// 	Div
+// }
 
 // /*css*/`
 // .style {
