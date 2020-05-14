@@ -1,16 +1,14 @@
-import { pipe, isNil, unless, always } from "ramda"
-import { elementAddListener, mutate, appendTo } from '../../common/utility'
-import { toInlineStyle } from "../../functions"
+import { isNil, unless, always } from "ramda"
+import { mutate, appendTo } from '../../common/utility'
+import { baseElement } from "../../functions/elements"
 
-export function Button({ onClick, innerText, children, style }){
+export function Button(options){
+	const { type } = options
 	return function renderer(parent){
-		pipe(
-			elementAddListener('click', onClick),
-			mutate('innerText', innerText),
-			unless(always(isNil(children)), children),
-			unless(always(isNil(style)), mutate('style', toInlineStyle(style))),
+		baseElement(
+			unless(always(isNil(type)), mutate('type', type)),
 			appendTo(parent),
-		)(document.createElement('button'))
+		)(options, document.createElement('button'))
 
 		return parent
 	}

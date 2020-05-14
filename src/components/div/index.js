@@ -1,18 +1,11 @@
-import { pipe, isNil, unless, always } from "ramda"
-import { elementAddListener, mutate, appendTo } from '../../common/utility'
-import { toInlineStyle } from "../../functions"
+import { appendTo } from '../../common/utility'
+import { baseElement } from "../../functions/elements"
 
-export function Div({ onClick, innerText, className, children, style }){
-	console.log(className)
+export function Div(options){
 	return function renderer(parent){
-		pipe(
-			elementAddListener('click', onClick),
-			mutate('innerText', innerText),
-			unless(always(isNil(children)), children),
-			unless(always(isNil(style)), mutate('style', toInlineStyle(style))),
-			unless(always(isNil(className)), mutate('className', className)),
+		baseElement(
 			appendTo(parent),
-		)(document.createElement('div'))
+		)(options, document.createElement('div'))
 
 		return parent
 	}

@@ -11,7 +11,7 @@ pipe(
 			className: 'container',
 			style: { color: 'red', background: 'currentcolor' },
 			children: pipe(
-				Button({ onClick: () => console.log('teste 2'), innerText: 'Test2'}),
+				Button({ onClick: () => console.log('teste 2'), innerText: 'Test2', type: 'submit'}),
 				Button({ onClick: () => console.log('teste 3'), innerText: 'Test3' })
 			)
 		}),

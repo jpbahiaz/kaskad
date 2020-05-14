@@ -1,4 +1,4 @@
-//## Lib function utilities ##//
+//## Lib styles function utilities ##//
 
 import { pipe, toPairs, map, join, concat } from "ramda";
 
