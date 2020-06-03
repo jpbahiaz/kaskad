@@ -1,14 +1,26 @@
 //## Lib styles function utilities ##//
 
-import { pipe, toPairs, map, join, concat } from "ramda";
+import { pipe, toPairs, map, converge, nth, tap, __ } from "ramda";
+import { mutate } from "../common/utility";
 
-export function toInlineStyle(styles){
-	// Creio que precise de validar esse objeto que está chegando
+export function setInlineStyles(styles) {
+	return function applyStyles(element){
+		pipe(
+			toPairs,
+			map(
+				pipe(
+					converge(mutate, [nth(0), nth(1)]),
+					tap(__, element.style)
+				)
+			)	
+		)(styles)
 
-	return pipe(
-		toPairs,
-		map(join(':')),
-		join(';'),
-		concat(';')
-	)(styles)
+		return element
+	}
 }
+
+// /*css*/`
+// .style {
+
+// }
+// `

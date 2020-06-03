@@ -1,9 +1,7 @@
 import { App } from './examples/App'
 
-App()
-
-// /*css*/`
-// .style {
-
-// }
-// `
+export default {
+	teste: (...args) => {
+		return args
+	}
+}
