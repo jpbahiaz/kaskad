@@ -1,7 +1,5 @@
-import { App } from './examples/App'
+import { createComponent } from "./functions/microcomponent";
 
 export default {
-	teste: (...args) => {
-		return args
-	}
+	teste: createComponent
 }

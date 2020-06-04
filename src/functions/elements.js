@@ -2,15 +2,14 @@
 
 import { pipe, unless, always, isNil, identity } from "ramda"
 import { elementAddListener, mutate, appendTo, consoleLog } from "../common/utility"
-import { toInlineStyle, setInlineStyles } from "./styles"
+import { setInlineStyles } from "./styles"
 
 export function baseElement(...fns){
 	return function insertBaseFunctionality({ onClick, innerText, className, children, style, stylesheet }, element){
 		return pipe(
-			unless(always(isNil(onClick)),elementAddListener('click', onClick)),
-			unless(always(isNil(innerText)),mutate('innerText', innerText)),
+			unless(always(isNil(onClick)), elementAddListener('click', onClick)),
+			unless(always(isNil(innerText)), mutate('innerText', innerText)),
 			unless(always(isNil(children)), children),
-			// unless(always(isNil(style)), mutate('style', toInlineStyle(style))),
 			unless(always(isNil(style)), setInlineStyles(style)),
 			unless(always(isNil(className)), mutate('className', className)),
 			...fns,
