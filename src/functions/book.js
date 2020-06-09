@@ -15,17 +15,9 @@ export const register = (function(){
 		}
 	}
 
-	return function registrator(element, props) {
-		window.BOOK.registrations[element] = { element, props }
+	return function registrator(element, transform) {
+		window.BOOK.registrations[element] = { element, transform }
 
 		return [ window.BOOK, registrator ]
 	}
 })()
-
-
-const BASE_ELEMENT = {
-	renderFn: function(){},
-	parent: {} || function(){},
-	props: {},
-	children: []
-}

@@ -1,5 +1,7 @@
-import { createComponent } from "./functions/microcomponent";
+import { createElement } from "./functions/microcomponent"
+import { render } from "./functions/general"
 
 export default {
-	teste: createComponent
+	createElement,
+	render,
 }

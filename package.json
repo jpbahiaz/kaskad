@@ -4,9 +4,6 @@
   "description": "Agnostic framework purely functional",
   "main": "dist/kaskad.js",
   "module": "src/index.js",
-  "dependencies": {
-    "ramda": "^0.27.0"
-  },
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/plugin-transform-react-jsx": "^7.10.1",
