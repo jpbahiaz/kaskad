@@ -1,7 +1,8 @@
-import { register } from "./book"
+// import { register } from "./book"
+import { each, appendTo } from "../common/utility"
 
 export function transform(fns) {
-	return function transformer(transformations) {
+	return function transformer(transformations){
 		transformations.forEach(([tName, ...args]) => {
 			fns[tName](...args)
 		})
@@ -10,28 +11,27 @@ export function transform(fns) {
 
 export function createElement(component = 'div', props, ...children){
 	let element
+	// console.log(children)
 
-	if(typeof component === 'string'){
+	if (typeof component === 'string'){
 		element = document.createElement(component)
-		register(element, transform({}))
-	} else {
-		const [ componentRendering, transformations ] = component({ ...props, children })
-		element = componentRendering
-		register(element, transform(transformations))
+		if (props) Object.assign(element, props)
+		
+	} else if (typeof component === 'function'){
+		element = component({ ...props, children })
 	}
 
-	element.append(children)
+	each(appendTo(element))(children)
 
-	console.log(props)
 	return element
 }
 
 const BASE_ELEMENT = {
-	renderFn: function(){},
-	parent: {} || function(){},
+	// renderFn: function(){},
+	// parent: {} || function(){},
 	props: {},
 	children: [],
-	exports: ['']
+	// exports: ['']
 }
 
 // let transformations = [
