@@ -24,5 +24,7 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "immer": "^7.0.5"
+  }
 }
