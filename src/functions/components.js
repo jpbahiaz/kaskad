@@ -1,3 +1,3 @@
 export function teste() {
-	console.log('birl')
+	console.log('boribuilder')
 }

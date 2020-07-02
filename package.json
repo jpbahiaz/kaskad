@@ -11,14 +11,16 @@
     "@rollup/plugin-babel": "^5.0.4",
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
+    "babel-jest": "^26.1.0",
+    "jest": "^26.1.0",
     "rollup": "^2.18.1",
     "rollup-plugin-terser": "^6.1.0"
   },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "node test/test.js",
-    "pretest": "npm run build"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "author": "João Pedro Bahia Zica",
   "license": "ISC",

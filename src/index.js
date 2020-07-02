@@ -1,5 +1,8 @@
 import { teste } from './functions/components'
 
 export default {
-	teste
+	teste,
+	galba(){
+		console.log('teste')
+	}
 }
