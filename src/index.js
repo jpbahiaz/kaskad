@@ -1,8 +1,6 @@
-import { teste } from './functions/components'
+import { print } from './common/utility'
+import * as domFunctions from './functions/dom'
 
 export default {
-	teste,
-	galba(){
-		console.log('teste')
-	}
+	...domFunctions
 }

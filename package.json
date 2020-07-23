@@ -1,7 +1,7 @@
 {
   "name": "kaskad",
   "version": "0.0.1",
-  "description": "React abstraction purely functional",
+  "description": "Simple js dom framework purely functional",
   "main": "dist/kaskad.cjs.js",
   "module": "dist/kaskad.esm.js",
   "browser": "dist/kaskad.umd.js",
