@@ -1,9 +1,17 @@
-import { each, mutate } from '../common/utility'
+import { each, mutate, apply, applier, pipe } from '../common/utility'
 
 //## Add listener to element  ##//
 export function addListener(event, listener) {
 	return function bindToElement(element) {
 		element.addEventListener(event, listener)
+
+		return element
+	}
+}
+
+export function addListeners(listeners) {
+	return function bindToElement(element) {
+		each(([event, listener]) => addListener(event, listener)( element ))( listeners )
 
 		return element
 	}
@@ -30,6 +38,8 @@ export function appendTo(parent) {
 export function appendAllTo(parent) {
 	return function appender(elements) {
 		each(appendTo(parent))(elements)
+
+		return elements
 	}
 }
 
