@@ -1,4 +1,4 @@
-import { each, mutate, apply, applier, pipe } from '../common/utility'
+import { each, mutate, mutator, apply, applier, pipe } from '../common/utility'
 
 //## Add listener to element  ##//
 export function addListener(event, listener) {
@@ -39,14 +39,18 @@ export function appendAllTo(parent) {
 	return function appender(elements) {
 		each(appendTo(parent))(elements)
 
-		return elements
+		return parent
 	}
 }
 
-export function createElement({ nodeName = 'div', listeners = [], ...props }) {
+export function createElement({ nodeName = 'div', listeners = [], ...props }, mutatorCallback) {
 	const element = document.createElement(nodeName)
 	each(prop => mutate(prop, props[prop])( element ))( Object.keys(props) )
 	each(([event, listener]) => addListener(event, listener)( element ))( listeners )
 	
-	return element
+	if(mutatorCallback) {
+		return [ element, mutator(element, mutatorCallback) ]
+	} else {
+		return element
+	}
 }
