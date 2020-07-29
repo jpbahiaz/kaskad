@@ -1,6 +1,6 @@
 {
   "name": "kaskad",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Simple js dom framework purely functional",
   "main": "dist/kaskad.cjs.js",
   "module": "dist/kaskad.esm.js",
