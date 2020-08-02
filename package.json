@@ -4,7 +4,6 @@
   "description": "Simple js dom framework purely functional",
   "main": "dist/kaskad.cjs.js",
   "module": "dist/kaskad.esm.js",
-  "browser": "dist/kaskad.umd.js",
   "devDependencies": {
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
@@ -14,6 +13,7 @@
     "babel-jest": "^26.1.0",
     "jest": "^26.1.0",
     "rollup": "^2.18.1",
+    "rollup-plugin-analyzer": "^3.3.0",
     "rollup-plugin-terser": "^6.1.0"
   },
   "scripts": {
@@ -26,5 +26,6 @@
   "license": "ISC",
   "files": [
     "dist"
-  ]
+  ],
+	"sideEffects": false
 }
