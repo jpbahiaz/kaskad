@@ -1,21 +1,10 @@
-import {
-	addListener,
-	addListeners,
-	removeListener,
-	appendTo,
-	appendAllTo,
-	createElement
-} from './functions/dom'
-import { mutate, mutator } from './common/utility'
+export { addListener } from './functions/addListener'
+export { addListeners } from './functions/addListeners'
+export { appendAllTo } from './functions/appendAllTo'
+export { appendTo } from './functions/appendTo'
+export { createElement } from './functions/createElement'
+export { each } from './common/each'
+export { removeListener } from './functions/removeListener'
 
-export {
-	mutate,
-	mutator,
-
-	addListener,
-	addListeners,
-	removeListener,
-	appendTo,
-	appendAllTo,
-	createElement
-}
+export { mutator } from './common/mutator'
+export { mutate } from './common/mutate'
