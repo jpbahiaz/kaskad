@@ -1,4 +1,4 @@
-export function appendAllTo(parent: HTMLElement): (els: HTMLElement[]) => HTMLElement {
+export function appendAllTo<T extends HTMLElement>(parent: T): (els: HTMLElement[]) => T {
 	return function appender(elements: HTMLElement[]) {
 		elements.forEach((element: HTMLElement) => parent.append(element))
 

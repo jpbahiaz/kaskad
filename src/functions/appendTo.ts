@@ -1,5 +1,5 @@
-export function appendTo(parent: Element): (el: Element) => Element {
-	return function appender(element: Element) {
+export function appendTo(parent: HTMLElement) {
+	return function appender<T extends HTMLElement>(element: T): T {
 		parent.append(element)
 
 		return element

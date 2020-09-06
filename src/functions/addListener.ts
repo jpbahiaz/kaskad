@@ -1,8 +1,8 @@
 export function addListener(
 	event: string,
 	listener: EventListenerOrEventListenerObject
-): (el: HTMLElement) => HTMLElement {
-	return function bindToElement(element: HTMLElement) {
+) {
+	return function bindToElement<T extends HTMLElement>(element: T): T {
 		element.addEventListener(event, listener)
 
 		return element

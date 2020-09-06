@@ -1,8 +1,8 @@
 export function removeListener(
 	event: string,
 	listener: EventListenerOrEventListenerObject
-): (el: HTMLElement) => HTMLElement {
-	return function unbindFromElement(element: HTMLElement) {
+){
+	return function unbindFromElement<T extends HTMLElement>(element: T): T {
 		element.removeEventListener(event, listener)
 
 		return element
