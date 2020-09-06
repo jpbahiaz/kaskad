@@ -1,4 +1,4 @@
-import { mutator } from "../common/mutator"
+import { mutator } from "@/utility/mutator"
 
 export function createElement({ nodeName = 'div', listeners = [], ...props }, mutatorCallback) {
 	const element = document.createElement(nodeName)
