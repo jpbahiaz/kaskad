@@ -4,6 +4,7 @@
   "description": "Simple js dom framework purely functional",
   "main": "dist/kaskad.cjs.js",
   "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
   "devDependencies": {
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
