@@ -4,6 +4,7 @@ import pkg from "./package.json"
 import { terser } from 'rollup-plugin-terser'
 import analyzer from 'rollup-plugin-analyzer'
 import typescript from 'rollup-plugin-typescript2'
+import cleanup from 'rollup-plugin-cleanup'
 
 const production = !process.env.ROLLUP_WATCH
 
@@ -25,7 +26,10 @@ export default {
 		analyzer({
 			summaryOnly: true,
 		}),
-		typescript()
+		typescript(),
+		cleanup({
+			comments: 'none'
+		})
 	]
 }
 
