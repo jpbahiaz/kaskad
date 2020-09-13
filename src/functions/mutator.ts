@@ -1,6 +1,6 @@
 export function mutator(
 	entity: any,
-	callback: (entt: any, prevEntt: any) => void = function(){}
+	callback: (entity: any, prevEntity: any) => void = function(){}
 ) {
 	return function mutate(prop: string, value: unknown) {
 		let prevEntity = {}
