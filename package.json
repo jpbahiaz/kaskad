@@ -2,8 +2,8 @@
   "name": "kaskad",
   "version": "0.1.1",
   "description": "Simple js dom framework purely functional",
-  "main": "dist/kaskad.cjs.js",
-  "module": "dist/esm/index.js",
+  "main": "dist/kaskad.umd.js",
+  "module": "dist/src/index.js",
   "types": "dist/index.d.ts",
   "devDependencies": {
     "@babel/core": "^7.10.4",
@@ -30,5 +30,8 @@
   "files": [
     "dist"
   ],
-  "sideEffects": false
+  "sideEffects": false,
+  "repository": {
+    "url": "https://github.com/jpbahiaz/kaskad"
+  }
 }

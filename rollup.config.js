@@ -11,10 +11,10 @@ const production = !process.env.ROLLUP_WATCH
 export default {
 	input: 'src/index.js',
 	output: [
-		{ file: pkg.main, format: 'cjs' },
+		{ file: pkg.main, format: 'umd', name: 'Kaskad' },
 		{
 			// file: pkg.module,
-			dir: 'dist/esm',
+			dir: 'dist',
 			format: 'es',
 			preserveModules: true
 		}
