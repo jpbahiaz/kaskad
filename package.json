@@ -1,6 +1,6 @@
 {
   "name": "kaskad",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple js dom framework purely functional",
   "main": "dist/kaskad.umd.js",
   "module": "dist/src/index.js",
