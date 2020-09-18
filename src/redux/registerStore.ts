@@ -1,10 +1,12 @@
+import { Store, Unsubscribe } from 'redux'
+
 function path (obj: any, slicePath: string[]) {
 	return slicePath.reduce((previous: any, current: string) => previous[current], obj)
 }
 
-function subscriber(store: any) {
+function subscriber(store: Store) {
 	return function subscribe<TSlice = any>(callback: (slice: TSlice) => void, slicePath?: string[]) {
-		let unsubscribe
+		let unsubscribe: Unsubscribe
 		if (slicePath) {
 			let prevPathState = path(store.getState(), slicePath)
 			unsubscribe = store.subscribe(() => {
@@ -23,6 +25,6 @@ function subscriber(store: any) {
 	}
 }
 
-export function registerStore(store: any) {
+export function registerStore(store: Store) {
 	return { subscribe: subscriber(store), dispatch: store.dispatch }
 }
