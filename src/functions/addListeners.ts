@@ -1,4 +1,4 @@
-import { TListener } from "@/common/types"
+import { TListener } from "../common/types"
 
 export function addListeners(listeners: TListener[]) {
 	return function bindToElement<T extends HTMLElement>(element: T): T {

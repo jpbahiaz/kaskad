@@ -1,5 +1,5 @@
 import { mutator } from "@/functions/mutator"
-import { TListener } from "@/common/types"
+import { TListener } from "../common/types"
 
 type TArgs = {
 	[index: string]: unknown;
