@@ -1,4 +1,4 @@
-import {TRouterOptions} from "./types"
+import { TRouterOptions } from "./types"
 
 function routerSubscriber() {
 	const subscriptions: {(): void}[]  = []
@@ -16,27 +16,41 @@ function matchLocation(path: string): boolean {
 	return Boolean(document.location.href.match(path))
 }
 
+function callRoute(path: string, routeMatch: Function, options: TRouterOptions) {
+	if(matchLocation(path)) {
+		options.firstMismatch = true
+		return routeMatch()
+	} else {
+		const mismatch = (options.firstMismatch || options.alwaysCallMismatch) && options.routeMismatch()
+		options.firstMismatch = false
+		return mismatch
+	}
+}
+
 export function createRouter(options: TRouterOptions = {} as TRouterOptions) {
 	const { subscribe, fire } = routerSubscriber()
 	const defaultOptions: TRouterOptions = {
 		routeMismatch: () => null,
-		firstMismatch: true
+		firstMismatch: true,
+		alwaysCallMismatch: false,
 	}
 	const routerOptions = { ...defaultOptions, ...options }
+
 	function route(
 		path: string,
 		routeMatch: () => any,
 		options: TRouterOptions = {} as TRouterOptions
-	): any {
-		const routeOptions = { ...routerOptions }
+	): any
+	{
+		const routeOptions = { ...routerOptions, ...options }
 		window.addEventListener('popstate', function(event: PopStateEvent) {
-			matchLocation(path) ? routeMatch() : routeOptions.firstMismatch && options.routeMismatch()
+			setTimeout(() => callRoute(path, routeMatch, routeOptions))
 		})
 		subscribe(() => {
-			matchLocation(path) ? routeMatch() : routeOptions.firstMismatch && options.routeMismatch()
+			setTimeout(() => callRoute(path, routeMatch, routeOptions))
 		})
 		
-		return matchLocation(path) ? routeMatch() : routeOptions.firstMismatch && options.routeMismatch()
+		return callRoute(path, routeMatch, routeOptions)
 	}
 
 	function push(path: string, state: any = null, title: string = document.title) {
