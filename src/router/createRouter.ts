@@ -58,5 +58,16 @@ export function createRouter(options: TRouterOptions = {} as TRouterOptions) {
 		fire(state)
 	}
 
-	return { route, push }
+	function replace(path: string, state: any = null, title: string = document.title) {
+		history.replaceState(state, title, path)
+		fire(state)
+	}
+	
+	return {
+		route,
+		push,
+		replace,
+		back: () => history.back(),
+		forward: () => history.forward()
+	}
 }
