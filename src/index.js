@@ -1,10 +1,19 @@
-export { addListener } from './functions/addListener'
-export { addListeners } from './functions/addListeners'
-export { appendAllTo } from './functions/appendAllTo'
-export { appendTo } from './functions/appendTo'
-export { createElement } from './functions/createElement'
-export { mutate } from './functions/mutate'
-export { mutator } from './functions/mutator'
-export { removeListener } from './functions/removeListener'
-export { registerStore } from './redux/registerStore'
-export { createRouter } from './router/createRouter'
+function kaskad() {
+	let useCall = 0
+	
+	function next() {}
+	
+	function use (...args) {
+		console.log('use call', useCall++, args)
+		args.forEach(fn => {
+			typeof fn === 'function' && fn({}, { use }, next)
+			// typeof fn === 'string' && console.log(fn)
+		})
+	}
+	
+	return {
+		use
+	}
+}
+
+export default kaskad
