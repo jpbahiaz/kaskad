@@ -1,24 +1,30 @@
-function Component(parent, name) {
+function Component(parent) {
 	this.parent = parent
-	this.ref = { galba: 'veloso' }
-	this.next = () => {}
-	this.name = name
+	this.children = []
+	this.middlewares = []
+	this.mounted = false
+	this.ref = {}
 
 	Object.freeze(this)
 }
 Component.prototype.use = function (...args) {
-	console.log('component.use', this.name, args)
+	console.log('component.use', args)
 	args.forEach(fn => {
-		typeof fn === 'function' && fn({}, this, this.next)
+		if(typeof fn === 'function') {
+			this.middlewares.push(fn)
+			fn({}, this, this.next)
+		}
 	})
 }
 Component.prototype.append = function (...args) {
-	console.log('component.append', this.name, args)
+	console.log('component.append', args)
 	args.forEach(fn => {
 		const newComponent = new Component(this.ref)
+		this.children.push(newComponent)
 		typeof fn === 'function' && fn({}, newComponent, newComponent.next)
 	})
 }
+Component.prototype.next = function () {}
 
 function Root() {
 	Component.call(this, null, 'root')
@@ -26,7 +32,7 @@ function Root() {
 Root.prototype = Object.create(Component.prototype)
 
 function kaskad() {
-	return new Root()
+	return new Root(new Teste())
 }
 
 export default kaskad
