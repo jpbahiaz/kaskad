@@ -1,11 +1,9 @@
 function Component(parent) {
-	this.parent = parent
-	this.children = []
-	this.middlewares = []
-	this.mounted = false
-	this.ref = {}
-
-	Object.freeze(this)
+		this.parent = parent
+		this.children = []
+		this.middlewares = []
+		this.mounted = false
+		this.ref = {}
 }
 Component.prototype.use = function (...args) {
 	console.log('component.use', args)
@@ -16,6 +14,7 @@ Component.prototype.use = function (...args) {
 		}
 	})
 }
+
 Component.prototype.append = function (...args) {
 	console.log('component.append', args)
 	args.forEach(fn => {
@@ -26,13 +25,4 @@ Component.prototype.append = function (...args) {
 }
 Component.prototype.next = function () {}
 
-function Root() {
-	Component.call(this, null, 'root')
-}
-Root.prototype = Object.create(Component.prototype)
-
-function kaskad() {
-	return new Root(new Teste())
-}
-
-export default kaskad
+export default Component
