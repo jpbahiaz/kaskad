@@ -1,28 +1,42 @@
-function Component(parent) {
+import { Middleware } from "./types";
+
+class Component {
+	parent: object;
+	children: unknown[];
+	middlewares: unknown[];
+	mounted: boolean;
+	ref: object;
+	
+	constructor(parent: object) {
 		this.parent = parent
 		this.children = []
 		this.middlewares = []
 		this.mounted = false
 		this.ref = {}
-}
-Component.prototype.use = function (...args) {
-	console.log('component.use', args)
-	args.forEach(fn => {
-		if(typeof fn === 'function') {
-			this.middlewares.push(fn)
-			fn({}, this, this.next)
-		}
-	})
-}
+	}
 
-Component.prototype.append = function (...args) {
-	console.log('component.append', args)
-	args.forEach(fn => {
-		const newComponent = new Component(this.ref)
-		this.children.push(newComponent)
-		typeof fn === 'function' && fn({}, newComponent, newComponent.next)
-	})
+	use(...args: Middleware[]) {
+		// console.log('component.use', args)
+		args.forEach(fn => {
+			if(typeof fn === 'function') {
+				this.middlewares.push(fn)
+				fn({}, this, this.next)
+			}
+		})
+	}
+
+	append(...args: Middleware[]) {
+		// console.log('component.append', args)
+		args.forEach(fn => {
+			if(typeof fn === 'function') {
+				const newComponent = new Component(this.ref)
+				this.children.push(fn)
+				fn({}, newComponent, newComponent.next)
+			}
+		})
+	}
+
+	next() {}
 }
-Component.prototype.next = function () {}
 
 export default Component

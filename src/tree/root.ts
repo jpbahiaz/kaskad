@@ -1,8 +1,9 @@
 import Component from "./component"
 
-function Root() {
-	Component.call(this, null)
+class Root extends Component {
+	constructor() {
+		super(null)
+	}
 }
-Root.prototype = Object.create(Component.prototype)
 
 export default Root
