@@ -1,19 +1,24 @@
 import Component from "./component"
 import { TChild } from "./types"
 
-class Root extends Component {
-	constructor() {
-		super(null)
-	}
-
-	listen() {
+function makeListen(component: any) {
+	return function listen() {
 		this.middlewares.forEach(fn => {
-			fn({}, this)
+			fn({}, component)
 		})
 		this.children.forEach((child: TChild) => {
-			const newComponent = new Component(this)
-			child.fn({}, newComponent)
+			const newComponent = Component(component)
+			child.fn({}, newComponent, component.next)
 		})
+	}
+}
+
+function Root () {
+	const _component = Component(null)
+
+	return {
+		..._component,
+		listen: makeListen(_component),
 	}
 }
 

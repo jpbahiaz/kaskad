@@ -1,7 +1,7 @@
 import Root from "./tree/root"
 
 function kaskad() {
-	return new Root()
+	return Root()
 }
 
 export default kaskad

@@ -1,45 +1,52 @@
-import { Middleware, TChild } from "./types";
+import { Middleware, TChild, TComponent } from "./types";
 
-class Component<TState = {}> {
-	parent: Component;
-	children: TChild[];
-	middlewares: Middleware[];
-	mounted: boolean;
-	ref: object;
-	state: TState;
-	stateChanges: Partial<TState>|null;
-	
-	constructor(parent: Component) {
-		this.parent = parent
-		this.children = []
-		this.middlewares = []
-		this.mounted = false
-		this.ref = {}
-		this.state = {} as TState
-		this.stateChanges = null
-	}
-
-	use(...args: Middleware[]) {
+function makeUse(component: any) {
+	return function use(...args: Middleware[]) {
 		args.forEach(fn => {
 			if(typeof fn === 'function') {
-				this.middlewares.push(fn)
+				component.middlewares.push(fn)
 			}
 		})
 	}
+}
 
-	append(...args: Middleware[]) {
+function makeAppend(component: any) {
+	return function append(...args: Middleware[]) {
 		args.forEach(fn => {
 			if(typeof fn === 'function') {
-				this.children.push({ fn, component: new Component(this) })
+				component.children.push({ fn, component: Component(component) })
 			}
 		})
 	}
+}
 
-	next(arg: string) {
-		console.log(arg, this)	
-		this.children.forEach((child: TChild) => {
-			child.fn({}, child.component)
+function makeNext(component: any) {
+	return function next(arg: string) {
+		console.log(arg, component)	
+		component.children.forEach((child: TChild) => {
+			child.fn({}, child.component, child.component.next)
 		})
+	}
+}
+
+
+
+function Component<TState = {}>(parent: TComponent) {
+		
+	const _component: any = {
+		parent: parent,
+		children: [],
+		middlewares: [],
+		mounted: false,
+		state: {} as TState,
+		stateChanges: null,
+	}
+
+	return {
+		..._component,
+		use: makeUse(_component),
+		append: makeAppend(_component),
+		next: makeNext(_component),
 	}
 }
 
