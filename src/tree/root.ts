@@ -1,19 +1,19 @@
 import Component from "./component"
-import { TChild } from "./types"
+import { Middleware, TChild, TComponent, TRoot } from "./types"
 
-function makeListen(component: any) {
+function makeListen(component: TComponent) {
 	return function listen() {
-		this.middlewares.forEach(fn => {
+		this.middlewares.forEach((fn: Middleware) => {
 			fn({}, component)
 		})
 		this.children.forEach((child: TChild) => {
 			const newComponent = Component(component)
-			child.fn({}, newComponent, component.next)
+			child.fn({}, newComponent)
 		})
 	}
 }
 
-function Root () {
+function Root (): TRoot {
 	const _component = Component(null)
 
 	return {

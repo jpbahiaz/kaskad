@@ -1,6 +1,6 @@
-import { Middleware, TChild, TComponent } from "./types";
+import { IAppend, INext, InnerComponent, InnerComponentFunctions, IPass, IUse, Middleware, TChild, TComponent } from "./types";
 
-function makeUse(component: any) {
+function makeUse(component: InnerComponent): IUse {
 	return function use(...args: Middleware[]) {
 		args.forEach(fn => {
 			if(typeof fn === 'function') {
@@ -10,7 +10,7 @@ function makeUse(component: any) {
 	}
 }
 
-function makeAppend(component: any) {
+function makeAppend(component: InnerComponent): IAppend {
 	return function append(...args: Middleware[]) {
 		args.forEach(fn => {
 			if(typeof fn === 'function') {
@@ -20,20 +20,27 @@ function makeAppend(component: any) {
 	}
 }
 
-function makeNext(component: any) {
+function makeNext(component: InnerComponent): INext {
 	return function next(arg: string) {
-		console.log(arg, component)	
+		console.log(arg, component)
 		component.children.forEach((child: TChild) => {
-			child.fn({}, child.component, child.component.next)
+			child.fn({}, child.component)
 		})
 	}
 }
 
+function makePass(component: InnerComponent): IPass {
+	return function pass(arg: string) {
+		console.log(arg, component)
+		component.middlewares.forEach((md: Middleware) => {
+			md({}, component as TComponent)
+		})
+	}
+}
 
-
-function Component<TState = {}>(parent: TComponent) {
+function Component<TState = {}>(parent: TComponent|InnerComponent): TComponent {
 		
-	const _component: any = {
+	const _innerComponent: InnerComponent = {
 		parent: parent,
 		children: [],
 		middlewares: [],
@@ -42,12 +49,14 @@ function Component<TState = {}>(parent: TComponent) {
 		stateChanges: null,
 	}
 
-	return {
-		..._component,
-		use: makeUse(_component),
-		append: makeAppend(_component),
-		next: makeNext(_component),
+	const _innerFunctions: InnerComponentFunctions = {
+		use: makeUse(_innerComponent),
+		append: makeAppend(_innerComponent),
+		next: makeNext(_innerComponent),
+		pass: makePass(_innerComponent),
 	}
+
+	return Object.assign(_innerComponent, _innerFunctions)
 }
 
 export default Component
