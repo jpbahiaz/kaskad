@@ -1,7 +1,8 @@
 export type InnerComponent<TState = {}> = {
 	parent: TComponent|InnerComponent;
 	children: TChild[];
-	middlewares: Middleware[];
+	middlewares: MiddlewareList;
+	currentMiddleware: TNextMiddleware;
 	mounted: boolean;
 	state: TState;
 	stateChanges: Partial<TState>|null;
@@ -9,6 +10,16 @@ export type InnerComponent<TState = {}> = {
 
 export interface Middleware {
 	(app: unknown, component: TComponent): void;
+}
+
+type TNextMiddleware = {
+	current: Middleware;
+	next: TNextMiddleware|null;
+}
+
+export type MiddlewareList = {
+	current: Middleware;
+	next: TNextMiddleware;
 }
 
 export interface INext {
