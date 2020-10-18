@@ -2,13 +2,10 @@ import { IAppend, INext, InnerComponent, InnerComponentFunctions, IPass, IUse, M
 
 function makeUse(component: InnerComponent): IUse {
 	return function use(...args: Middleware[]) {
-		let lastMid = component.middlewares
-		while(lastMid.next) lastMid = lastMid.next
 		args.forEach(fn => {
 			if(typeof fn === 'function') {
-				let nextMid = { current: fn, next: null }
-				lastMid.next = nextMid
-				lastMid = nextMid
+				component.middlewares.push(fn)
+				component.currentMiddleware.push(fn)
 			}
 		})
 	}
@@ -28,7 +25,7 @@ function makeNext(component: InnerComponent): INext {
 	return function next(arg: string) {
 		console.log(arg, component)
 		component.children.forEach((child: TChild) => {
-			child.fn({}, child.component)
+			child.fn(child.component, {})
 		})
 	}
 }
@@ -36,9 +33,8 @@ function makeNext(component: InnerComponent): INext {
 function makePass(component: InnerComponent): IPass {
 	return function pass(arg: string) {
 		console.log(arg, component)
-		// component.middlewares.forEach((md: Middleware) => {
-		//  md({}, component as TComponent)
-		// })
+		const midd = component.currentMiddleware.shift()
+		if(midd) midd(component, {})
 	}
 }
 
@@ -47,7 +43,8 @@ function Component<TState = {}>(parent: TComponent|InnerComponent): TComponent {
 	const _innerComponent: InnerComponent = {
 		parent: parent,
 		children: [],
-		middlewares: { current: () => {}, next: null },
+		middlewares: [],
+		currentMiddleware: [],
 		mounted: false,
 		state: {} as TState,
 		stateChanges: null,

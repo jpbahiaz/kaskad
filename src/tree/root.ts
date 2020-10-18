@@ -1,14 +1,12 @@
 import Component from "./component"
-import { Middleware, TChild, TComponent, TRoot } from "./types"
+import { TChild, TComponent, TRoot } from "./types"
 
 function makeListen(component: TComponent) {
 	return function listen() {
-		this.middlewares.forEach((fn: Middleware) => {
-			fn({}, component)
-		})
-		this.children.forEach((child: TChild) => {
+		component.pass('Root Pass')
+		component.children.forEach((child: TChild) => {
 			const newComponent = Component(component)
-			child.fn({}, newComponent)
+			child.fn(newComponent, {})
 		})
 	}
 }

@@ -1,25 +1,15 @@
 export type InnerComponent<TState = {}> = {
 	parent: TComponent|InnerComponent;
 	children: TChild[];
-	middlewares: MiddlewareList;
-	currentMiddleware: TNextMiddleware;
+	middlewares: Middleware[];
+	currentMiddleware: Middleware[];
 	mounted: boolean;
 	state: TState;
 	stateChanges: Partial<TState>|null;
 }
 
 export interface Middleware {
-	(app: unknown, component: TComponent): void;
-}
-
-type TNextMiddleware = {
-	current: Middleware;
-	next: TNextMiddleware|null;
-}
-
-export type MiddlewareList = {
-	current: Middleware;
-	next: TNextMiddleware;
+	(component: TComponent|InnerComponent, app: unknown): void;
 }
 
 export interface INext {
