@@ -1,7 +1,11 @@
 import Root from "./tree/root"
-import './tree/types'
 function kaskad() {
 	return Root()
 }
 
+export {
+	Middleware,
+	TComponent,
+	TRoot,
+} from './tree/types'
 export default kaskad
