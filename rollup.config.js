@@ -23,9 +23,7 @@ export default {
 		resolve(),
 		commonjs(),
 		production && terser(),
-		analyzer({
-			summaryOnly: true,
-		}),
+		analyzer(),
 		typescript(),
 		cleanup({
 			comments: 'none'

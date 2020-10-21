@@ -14,10 +14,7 @@ function makeListen(component: TComponent) {
 function Root (): TRoot {
 	const _component = Component(null)
 
-	return {
-		..._component,
-		listen: makeListen(_component),
-	}
+	return Object.assign(_component, { listen: makeListen(_component) })
 }
 
 export default Root
