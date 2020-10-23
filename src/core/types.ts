@@ -1,11 +1,13 @@
+import { TVnode } from "@/tree/types";
+
 export type InnerComponent<TState = {}> = {
-	parent: TComponent|InnerComponent;
-	children: TChild[];
-	middlewares: Middleware[];
-	currentMiddleware: Middleware[];
-	mounted: boolean;
-	state: TState;
-	stateChanges: Partial<TState>|null;
+	instance: {
+		middlewares: Middleware[];
+		currentMiddleware: Middleware[];
+		state: TState;
+		stateChanges: Partial<TState>|null;
+	};
+	vnode: TVnode;
 }
 
 export interface Middleware {
@@ -21,7 +23,7 @@ export interface IPass {
 }
 
 export interface IAppend {
-	(...args: Middleware[]): void;
+	(...args: (Middleware|string)[]): void;
 }
 
 export interface IUse {

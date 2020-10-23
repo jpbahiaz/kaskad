@@ -1,18 +1,20 @@
-import { IAppend, INext, InnerComponent, InnerComponentFunctions, IPass, IUse, Middleware, TChild, TComponent } from "./types";
+import { TVnode } from "../tree/types"
+import Vnode from "@/tree/vnode"
+import { IAppend, INext, InnerComponent, InnerComponentFunctions, IPass, IUse, TChild } from "./types"
 
 function makeUse(component: InnerComponent): IUse {
-	return function use(...args: Middleware[]) {
+	return function use(...args) {
 		args.forEach(fn => {
 			if(typeof fn === 'function') {
-				component.middlewares.push(fn)
-				component.currentMiddleware.push(fn)
+				component.instance.middlewares.push(fn)
+				component.instance.currentMiddleware.push(fn)
 			}
 		})
 	}
 }
 
 function makeAppend(component: InnerComponent): IAppend {
-	return function append(...args: Middleware[]) {
+	return function append(...args) {
 		args.forEach(fn => {
 			if(typeof fn === 'function') {
 				component.children.push({ fn, component: Component(component) })
@@ -38,16 +40,20 @@ function makePass(component: InnerComponent): IPass {
 	}
 }
 
-function Component<TState = {}>(parent: TComponent|InnerComponent): TComponent {
-		
+function makeRender() {
+
+}
+
+function Component<TState = {}>(parent: TVnode) {
+
 	const _innerComponent: InnerComponent = {
-		parent: parent,
-		children: [],
-		middlewares: [],
-		currentMiddleware: [],
-		mounted: false,
-		state: {} as TState,
-		stateChanges: null,
+		instance: {
+			middlewares: [],
+			currentMiddleware: [],
+			state: {} as TState,
+			stateChanges: null,
+		},
+		vnode: Vnode(parent, () => {}, {}, {} as TVnode),
 	}
 
 	const _innerFunctions: InnerComponentFunctions = {
@@ -57,7 +63,8 @@ function Component<TState = {}>(parent: TComponent|InnerComponent): TComponent {
 		pass: makePass(_innerComponent),
 	}
 
-	return Object.assign(_innerComponent, _innerFunctions)
+	Object.assign(_innerComponent.instance, _innerFunctions)
+	return _innerComponent
 }
 
 export default Component

@@ -1,12 +1,7 @@
-enum VnodeTypeEnum {
-	TEXT = 'TEXT',
-	ELEMENT = 'ELEMENT',
-	FUNCTION = 'FUNCTION',
-}
-
 export type TVnode = {
-	type: VnodeTypeEnum;
-	domRef: HTMLElement;
+	tag: string|Function;
+	domRef: Element;
 	parent: TVnode;
+	child: TVnode;
 	sibling: TVnode;
 }

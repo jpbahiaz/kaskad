@@ -1,7 +1,7 @@
 import { TVnode } from './types'
 
-function Vnode(node: any): TVnode {
-	return { type: node.type, domRef: node.domRef, parent: node.parent, sibling: node.sibling }
+function Vnode(parent: TVnode, child: TVnode, sibling: TVnode, tag: any, domRef: any): TVnode {
+	return { parent: parent, child: child, sibling: sibling, tag: tag, domRef: domRef }
 }
 
 export default Vnode
