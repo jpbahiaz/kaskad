@@ -1,6 +1,6 @@
 import { TVnode } from "../tree/types"
 import Vnode from "@/tree/vnode"
-import { IAppend, INext, InnerComponent, InnerComponentFunctions, IPass, IUse, TChild } from "./types"
+import { IAppend, INext, InnerComponent, IPass, IUse, Middleware, TChild, TComponent } from "./types"
 
 function makeUse(component: InnerComponent): IUse {
 	return function use(...args) {
@@ -15,37 +15,34 @@ function makeUse(component: InnerComponent): IUse {
 
 function makeAppend(component: InnerComponent): IAppend {
 	return function append(...args) {
-		args.forEach(fn => {
-			if(typeof fn === 'function') {
-				component.children.push({ fn, component: Component(component) })
-			}
-		})
+		component.vnode.child = args.reduceRight((prev: TVnode|null, current: Middleware) => {
+			const newComponent = Component(component.vnode, prev, current)
+			return newComponent.vnode
+		}, null)
 	}
 }
 
 function makeNext(component: InnerComponent): INext {
 	return function next(arg: string) {
 		console.log(arg, component)
-		component.children.forEach((child: TChild) => {
-			child.fn(child.component, {})
-		})
+		if (component.vnode.child) component.vnode.child.render()
 	}
 }
 
 function makePass(component: InnerComponent): IPass {
 	return function pass(arg: string) {
 		console.log(arg, component)
-		const midd = component.currentMiddleware.shift()
-		if(midd) midd(component, {})
 	}
 }
 
-function makeRender() {
-
+function makeRender(component: InnerComponent) {
+	return function render() {
+		if (typeof component.vnode.tag === 'function') component.vnode.tag(component.instance)
+		if (component.vnode.sibling) component.vnode.sibling.render()	
+	}
 }
 
-function Component<TState = {}>(parent: TVnode) {
-
+function Component<TState = {}>(parent: TVnode = null, sibling: TVnode = null, tag: string|Function = null): TComponent {
 	const _innerComponent: InnerComponent = {
 		instance: {
 			middlewares: [],
@@ -53,18 +50,19 @@ function Component<TState = {}>(parent: TVnode) {
 			state: {} as TState,
 			stateChanges: null,
 		},
-		vnode: Vnode(parent, () => {}, {}, {} as TVnode),
+		vnode: Vnode(parent, null, sibling, tag, null),
 	}
 
-	const _innerFunctions: InnerComponentFunctions = {
+	const _innerFunctions = {
 		use: makeUse(_innerComponent),
 		append: makeAppend(_innerComponent),
 		next: makeNext(_innerComponent),
 		pass: makePass(_innerComponent),
 	}
 
+	_innerComponent.vnode.render = makeRender(_innerComponent)
 	Object.assign(_innerComponent.instance, _innerFunctions)
-	return _innerComponent
+	return _innerComponent as TComponent
 }
 
 export default Component

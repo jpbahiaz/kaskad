@@ -1,11 +1,12 @@
 import Root from "./core/root"
 function kaskad() {
-	return Root()
+	return Root().instance
 }
 
 export {
 	Middleware,
-	TComponent,
+	ComponentInstance,
+	RootInstance,
 	TRoot,
 } from './core/types'
 export default kaskad

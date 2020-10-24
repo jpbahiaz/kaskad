@@ -3,18 +3,17 @@ import { TChild, TComponent, TRoot } from "./types"
 
 function makeListen(component: TComponent) {
 	return function listen() {
-		component.pass('Root Pass')
-		component.children.forEach((child: TChild) => {
-			const newComponent = Component(component)
-			child.fn(newComponent, {})
-		})
+		console.log('listen', component)
+		component.instance.pass('Root Pass')
+		component.instance.next('Root Next')
 	}
 }
 
 function Root (): TRoot {
 	const _component = Component(null)
 
-	return Object.assign(_component, { listen: makeListen(_component) })
+	Object.assign(_component.instance, { listen: makeListen(_component) })
+	return _component as TRoot
 }
 
 export default Root
