@@ -1,22 +1,13 @@
-const EMPTY_ARR = []
-const isArray = Array.isArray
+import  { EMPTY_ARR, isArray } from "./common/constants"
+import { createVNode, recycleNode } from "./vdom/nodes"
+import { patch } from "./vdom/patch"
 
-function createVnode(type, props, children, node, key, tag?) {
-	return {
-		type,
-		props,
-		children,
-		node,
-		key,
-		tag
-	}
-}
-
+export { text } from "./vdom/nodes"
 
 export function k(type, props?, children?) {
-	return createVnode(
+	return createVNode(
 		type,
-		props || null,
+		props || {},
 		isArray(children) ? children : children == null ? EMPTY_ARR : [children],
 		null,
 		props ? props.key || null : null,
@@ -24,5 +15,25 @@ export function k(type, props?, children?) {
 }
 
 export function app (options) {
-	return options
+	let view = options.view
+	let node = options.node
+	let vdom = node && recycleNode(node)
+	let doing
+
+	function listener (event) {
+    console.log(this.tag[event.type], this, event)
+  }
+
+  function render () {
+    return node = patch(
+      node.parentNode,
+      node,
+      vdom,
+      (vdom = view()),
+      listener,
+      (doing = false)
+    )
+	}
+
+	return render()
 }
