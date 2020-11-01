@@ -35,5 +35,5 @@ export function app (options) {
     )
 	}
 
-	return render()
+	return render
 }
