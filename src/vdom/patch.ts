@@ -6,6 +6,14 @@ import { createNode } from "./render"
 export function patchProperty(node, key, oldValue, newValue, listener, isSvg) {
   if (key === "key") {
   } else if (key === "style") {
+    for (var k in { ...oldValue, ...newValue }) {
+      oldValue = newValue == null || newValue[k] == null ? "" : newValue[k]
+      if (k[0] === "-") {
+        node[key].setProperty(k, oldValue)
+      } else {
+        node[key][k] = oldValue
+      }
+    }
   } else if (key[0] === "o" && key[1] === "n") {
     if (!((node.tag || (node.tag = {}))[(key = key.slice(2))] = newValue)) {
       node.removeEventListener(key, listener)
