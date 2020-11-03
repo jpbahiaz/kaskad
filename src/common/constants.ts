@@ -1,5 +1,6 @@
 export const EMPTY_ARR = []
 export const EMPTY_OBJ = {}
+export const IS_VNODE = {}
 export const TEXT_NODE = 3
 export const SSR_NODE = 1
 export const map = EMPTY_ARR.map

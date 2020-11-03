@@ -1,19 +1,20 @@
-import { EMPTY_ARR, EMPTY_OBJ, map, SSR_NODE, TEXT_NODE } from "../common/constants"
+import { EMPTY_ARR, EMPTY_OBJ, IS_VNODE, map, SSR_NODE, TEXT_NODE } from "../common/constants"
 import { propsChanged } from "../common/utility"
 
-export function createVNode(type, props, children, node, key, tag?) {
+export function createVNode(type, props, children, node, key, is_vnode, tag?) {
 	return {
 		type,
 		props,
 		children,
 		node,
 		key,
-		tag
+		tag,
+		is_vnode
 	}
 }
 
 export function text(value, node?) {
-  return createVNode(value, EMPTY_OBJ, EMPTY_ARR, node, null, TEXT_NODE)
+  return createVNode(value, EMPTY_OBJ, EMPTY_ARR, node, null, IS_VNODE, TEXT_NODE)
 }
 
 export function recycleNode(node) {
@@ -25,7 +26,8 @@ export function recycleNode(node) {
         map.call(node.childNodes, recycleNode),
         node,
         null,
-        SSR_NODE
+				IS_VNODE,
+        SSR_NODE,
       )
 }
 
