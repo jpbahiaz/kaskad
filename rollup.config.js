@@ -9,7 +9,7 @@ import cleanup from 'rollup-plugin-cleanup'
 const production = !process.env.ROLLUP_WATCH
 
 export default {
-	input: 'src/index.js',
+	input: 'src/index.ts',
 	output: [
 		{ file: pkg.main, format: 'umd', name: 'Kaskad' },
 		{
